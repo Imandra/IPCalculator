@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="keywords" content="ip calculator, ip калькулятор, калькулятор подсетей, калькулятор подсетей онлайн">
+    <meta name="title" content="IP калькулятор онлайн">
+    <meta name="description" content="Узнайте по ip адресу и маске подсети: префикс, ip адрес сети,
+     широковещательный адрес, количество хостов в сети.">
+    <title>Ip калькулятор онлайн</title>
+    <link rel="stylesheet" href="css/style.css" type="text/css">
+    <script src="js/script.js"></script>
+</head>
+<body>
+<div id="page">
+    <div id="header"> IP калькулятор онлайн</div>
+    <div id="menu">
+        <ul>
+            <li><a href="#">Главная</a></li>
+            <li><a href="#">Алгоритм расчета сетей</a></li>
+            <li><a href="#">GitHub</a></li>
+            <li><a href="#">Контакты</a></li>
+        </ul>
+    </div><!--#menu-->
+    <div id="left">
+        <a href="#">IP адрес</a><br>
+        <a href="#">Маска подсети</a><br>
+        <a href="#">Префикс</a><br>
+        <a href="#">IP адрес сети</a><br>
+        <a href="#">Broadcast</a><br>
+    </div><!--#left-->
+    <div id="content">
+        <h2>IP калькулятор подсетей онлайн</h2>
+        <p>С помощью данного IP калькулятора можно вычислить ip адрес сети, широковещательный адрес,
+            количество рабочих узлов (хостов) в заданной сети, маску сети и сетевой префикс. </p>
+        <div id="calculator">
+            <form name="calc">
+                <div id="param">
+                    IP адрес:<br>
+                    Маска подсети:<br><br>
+                    Префикс:<br><br>
+                    IP адрес сети:<br>
+                    Широковещательный адрес:<br>
+                    Число хостов:<br>
+                </div>
+                <div id="elem">
+                    <input type="text" id="ip" placeholder="192.168.0.1"><br>
+                    <input type="text" id="net_mask" placeholder="255.255.252.0"><br>
+                    <input type="radio" name="choice" id="mask" checked onClick="setReadOnly()"><label
+                        for="mask">маска</label>
+                    <input type="radio" name="choice" id="pref" onClick="setReadOnly()"><label
+                        for="pref">префикс</label><br>
+                    <input type="text" maxlength="2" id="prefix" readonly placeholder="22"><br>
+                    <input type="button" value="Расчет" onClick="calculate()">
+                    <input type="reset" value="Сброс" onClick="setDefault()"><br>
+                    <input type="text" id="net_ip" readonly title="IP адрес сети"><br>
+                    <input type="text" id="broadcast" readonly title="Широковещательный адрес"><br>
+                    <input type="text" id="hosts" readonly title="Число хостов"><br>
+                </div>
+            </form>
+        </div><!--#calculator-->
+    </div><!--#content-->
+    <div id="right">
+        <p>Здесь будет Яндекс поиск :)</p>
+    </div><!--#right-->
+    <div id="footer">
+        <p>Все права защищены. Копирование информации без разрешения автора сайта - запрещено.</p>
+        <p>Shalyapin Alexey &copy; 2016 <a href="mailto:shalyapin.alexej@yandex.ru">shalyapin.alexej@yandex.ru</a></p>
+    </div><!--#footer-->
+</div><!--#page-->
+</body>
+</html>
