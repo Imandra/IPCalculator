@@ -15,14 +15,14 @@ function calculate() {
     }
 
     var prefix = 0;
-    var netMask = 0;
+    var netMask;
 
     if (document.getElementById('mask').checked) {
         netMask = document.getElementById('net_mask').value;
+
         if (netMask.search(pattern) == -1) {
             alert('Illegal value for NetMask');
             return;
-
         }
 
         netMask = netMask.split(".");
@@ -53,6 +53,7 @@ function calculate() {
 
     else {
         prefix = parseInt(document.getElementById('prefix').value);
+
         if ((prefix > 32) || (prefix < 1)) {
             alert("Illegal value for Prefix");
             return;
@@ -62,24 +63,16 @@ function calculate() {
             return;
         }
 
-        netMask = [];
+        netMask = [0, 0, 0, 0];
 
-        var p = prefix;
-
-        for (var m = 0; m < 4; m++) {
-            if (p >= 8) {
-                netMask[m] = prefixToMask(8);
-                p -= 8;
-            }
-            else {
-                netMask[m] = prefixToMask(p);
-                p = 0;
-            }
+        for (var m = 0; m < prefix; m++) {
+            netMask[Math.floor(m / 8)] += 1 << (7 - m % 8);
         }
         document.getElementById('net_mask').value = netMask.join(".");
     }
-    var netIp = [];
     
+    var netIp = [];
+
     for (var x = 0; x < 4; x++) {
         netIp [x] = ip [x] & netMask [x];
     }
@@ -114,17 +107,6 @@ function setDefault() {
     document.getElementById('net_mask').readOnly = false;
 }
 
-function prefixToMask(x) {
-    var des = 0;
-    var arr = [];
-    for (var i = 0; i < 8; i++) {
-        if (i < x) arr[i] = 1;
-        else arr[i] = 0;
-        des += arr[i] * Math.pow(2, 7 - i);
-    }
-    return des;
-}
-
 /**
  * @return {number}
  */
@@ -143,7 +125,3 @@ function inArray(value, array) {
     }
     return false;
 }
-
-/*function setFocus() {
- document.getElementById('ip').focus();
- }*/
