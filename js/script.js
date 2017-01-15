@@ -45,15 +45,15 @@ function calculate() {
         var netMaskBinary = '';
 
         for (var n = 0; n < 4; n++) {
-            if (!checkForPresence(netMask [n], validValues)) {
+            if (validValues.indexOf(parseInt(netMask[n])) === -1) {
                 alert('Illegal value for NetMask');
                 return;
             }
-            netMaskBinary += parseInt(netMask [n]).toString(2);
+            netMaskBinary += parseInt(netMask[n]).toString(2);
         }
 
         for (var z = 0; z < netMaskBinary.length; z++) {
-            if (netMaskBinary [z] == 0) {
+            if (netMaskBinary[z] == 0) {
                 prefix = z;
                 break;
 
@@ -119,13 +119,4 @@ function setReadOnly() {
 function setDefault() {
     document.getElementById('prefix').readOnly = true;
     document.getElementById('net_mask').readOnly = false;
-}
-
-function checkForPresence(value, array) {
-    for (var i = 0; i < array.length; i++) {
-        if (array[i] == value) {
-            return true;
-        }
-    }
-    return false;
 }
