@@ -6,7 +6,9 @@ function calculate() {
         alert('Illegal value for IP address');
         return;
     }
-    ip = ip.split(".");
+
+    ip = ip.split('.');
+
     for (var j = 0; j < 4; j++) {
         if (ip [j] > 255) {
             alert('Illegal value for IP address');
@@ -25,41 +27,52 @@ function calculate() {
             return;
         }
 
-        netMask = netMask.split(".");
+        netMask = netMask.split('.');
 
-        for (var k = 0; k < netMask.length - 1; k++) {
-            if (netMask[k] * 1 < netMask[k + 1] * 1) {
+        for (var k = 0; k < 3; k++) {
+            if (parseInt(netMask[k]) < parseInt(netMask[k + 1])) {
                 alert('Illegal value for NetMask');
                 return;
             }
+
             if ((netMask[k] < 255) && (netMask[k + 1] != 0)) {
                 alert('Illegal value for NetMask');
                 return;
             }
         }
-        var validValues = [0, 128, 192, 224, 240, 248, 252, 254, 255];
 
-        for (var n = 0; n < netMask.length; n++) {
-            if (!inArray(netMask [n], validValues)) {
+        var validValues = [0, 128, 192, 224, 240, 248, 252, 254, 255];
+        var netMaskBinary = '';
+
+        for (var n = 0; n < 4; n++) {
+            if (!checkForPresence(netMask [n], validValues)) {
                 alert('Illegal value for NetMask');
                 return;
             }
+            netMaskBinary += parseInt(netMask [n]).toString(2);
+        }
 
-            prefix += numOfBits(netMask [n]);
+        for (var z = 0; z < netMaskBinary.length; z++) {
+            if (netMaskBinary [z] == 0) {
+                prefix = z;
+                break;
+
+            } else {
+                prefix = 32;
+            }
         }
 
         document.getElementById('prefix').value = prefix;
-    }
 
-    else {
+    } else {
         prefix = parseInt(document.getElementById('prefix').value);
 
-        if ((prefix > 32) || (prefix < 1)) {
-            alert("Illegal value for Prefix");
+        if ((prefix > 32) || (prefix < 0)) {
+            alert('Illegal value for Prefix');
             return;
         }
         if (isNaN(prefix)) {
-            alert("Illegal value for Prefix");
+            alert('Illegal value for Prefix');
             return;
         }
 
@@ -68,16 +81,17 @@ function calculate() {
         for (var m = 0; m < prefix; m++) {
             netMask[Math.floor(m / 8)] += 1 << (7 - m % 8);
         }
-        document.getElementById('net_mask').value = netMask.join(".");
+
+        document.getElementById('net_mask').value = netMask.join('.');
     }
-    
+
     var netIp = [];
 
     for (var x = 0; x < 4; x++) {
         netIp [x] = ip [x] & netMask [x];
     }
 
-    document.getElementById('net_ip').value = netIp.join(".");
+    document.getElementById('net_ip').value = netIp.join('.');
 
     var broadcast = [];
 
@@ -85,7 +99,7 @@ function calculate() {
         broadcast [y] = ip [y] | (256 + ~netMask [y]);
     }
 
-    document.getElementById('broadcast').value = broadcast.join(".");
+    document.getElementById('broadcast').value = broadcast.join('.');
     document.getElementById('hosts').value = Math.pow(2, 32 - prefix) - 2;
 }
 
@@ -93,12 +107,12 @@ function setReadOnly() {
     if (document.getElementById('prefix').readOnly) {
         document.getElementById('prefix').readOnly = false;
         document.getElementById('net_mask').readOnly = true;
-        document.getElementById('net_mask').value = "";
-    }
-    else {
+        document.getElementById('net_mask').value = '';
+
+    } else {
         document.getElementById('prefix').readOnly = true;
         document.getElementById('net_mask').readOnly = false;
-        document.getElementById('prefix').value = "";
+        document.getElementById('prefix').value = '';
     }
 }
 
@@ -107,21 +121,11 @@ function setDefault() {
     document.getElementById('net_mask').readOnly = false;
 }
 
-/**
- * @return {number}
- */
-function numOfBits(x) {
-    var t = 0;
-    while (x != 0) {
-        t += 1;
-        x &= x - 1; //сбрасываем крайний бит справа
-    }
-    return t;
-}
-
-function inArray(value, array) {
+function checkForPresence(value, array) {
     for (var i = 0; i < array.length; i++) {
-        if (array[i] == value) return true;
+        if (array[i] == value) {
+            return true;
+        }
     }
     return false;
 }
