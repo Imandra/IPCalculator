@@ -96,7 +96,7 @@ function calculate() {
     var broadcast = [];
 
     for (var y = 0; y < 4; y++) {
-        broadcast [y] = ip [y] | (256 + ~netMask [y]);
+        broadcast [y] = ip [y] | (255 - netMask [y]);
     }
 
     document.getElementById('broadcast').value = broadcast.join('.');
