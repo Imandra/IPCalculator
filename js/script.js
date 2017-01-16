@@ -52,14 +52,8 @@ function calculate() {
             netMaskBinary += parseInt(netMask[n]).toString(2);
         }
 
-        for (var z = 0; z < netMaskBinary.length; z++) {
-            if (netMaskBinary[z] == 0) {
-                prefix = z;
-                break;
-
-            } else {
-                prefix = 32;
-            }
+        while (netMaskBinary[prefix] == 1) {
+            prefix++;
         }
 
         document.getElementById('prefix').value = prefix;
